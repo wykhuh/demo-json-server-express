@@ -10,8 +10,8 @@ if(env === 'development') {
 
 app.set('view engine', 'ejs');
 
-app.get('/', function(req, res){
-  // connect to api
+app.get('/', function(req, res, next){
+  // connect to api and get all users
   axios.get(process.env.API_URL + 'users')
   .then(function(response){
     // get data from api
@@ -21,7 +21,24 @@ app.get('/', function(req, res){
     res.render('home', { users: users } )
   })
   .catch(function(err) {
+    console.log('ERROR:', err);
+    next();
+  })
+})
+
+app.get('/users/:id', function(req, res, next){
+  // connect to api and get one user
+  axios.get(process.env.API_URL + 'users/' + req.params.id )
+  .then(function(response){
+    // get data from api
+    var user = response.data;
+
+    // render template with api data
+    res.render('user', { user: user } )
+  })
+  .catch(function(err) {
     console.log('ERROR:', err)
+    next();
   })
 })
 
