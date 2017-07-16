@@ -30,6 +30,10 @@ app.get('/', function(req, res, next){
   })
 })
 
+app.get('/users/', function(req,res) {
+  res.redirect('/');
+})
+
 app.get('/users/:id', function(req, res, next){
   // connect to api and get one user
   axios.get(process.env.API_URL + 'users/' + req.params.id )
