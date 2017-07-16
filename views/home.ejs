@@ -5,3 +5,11 @@
   <li><a href="/users/<%= user.id %>"><%= user.name %></a></li>
   <% }) %>
 </ul>
+
+<h2>Add new user</h2>
+
+<form action="/users/" method="POST">
+  <label for="name">Name</label>
+  <input type="text" name="name" id="name">
+  <input type="submit" value="submit">
+</form>

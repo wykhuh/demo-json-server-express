@@ -71,6 +71,33 @@ app.post('/users/:id/update', function(req, res, next) {
   })
 })
 
+// create new user
+app.post('/users', function(req, res, next) {
+  // get the last user in the database
+  var getLastUserUrl = process.env.API_URL + 'users?_sort=id&_order=desc&_limit=1';
+
+  axios.get(getLastUserUrl)
+  .then(function(result){
+    return result.data[0];
+  })
+  .then(function(lastUser){
+    var name = req.body.name;
+    var id = lastUser.id + 1;
+
+    var url = process.env.API_URL + 'users';
+    return axios.post(url, { name: name, id: id })
+  })
+  .then(function() {
+    res.redirect('/');
+  })
+  .catch(function(err) {
+    console.log('ERROR:', err)
+    next();
+  })
+})
+
+
+
 app.listen(process.env.PORT || 3000, function() {
   console.log('server staring port 3000');
 });
