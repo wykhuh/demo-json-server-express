@@ -96,6 +96,18 @@ app.post('/users', function(req, res, next) {
   })
 })
 
+// delete
+app.post('/users/:id/delete', function(req, res, next) {
+  var url = process.env.API_URL + '/users/' + req.params.id
+  axios.delete(url)
+  .then(function(result){
+    res.redirect('/');
+  })
+  .catch(function(err) {
+    console.log('ERROR:', err)
+    next();
+  })
+})
 
 
 app.listen(process.env.PORT || 3000, function() {
